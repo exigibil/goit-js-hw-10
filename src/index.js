@@ -1,17 +1,44 @@
+import axios from 'axios';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import config from './config';
 
-const headers = new Headers({
-    "Content-Type": "application/json",
-    "x-api-key": "DEMO-API-KEY"
+const apiKey = config.catApiKey;
+
+const axiosRequest = axios.get("https://api.thecatapi.com/v1/breeds", {
+  headers: {
+    'x-api-key': apiKey
+  }
+})
+  .then(response => response.data)
+  .catch(error => {
+    console.error('Error fetching cat breeds using Axios:', error);
+    return []; // Return an empty array in case of error
   });
-  
-  var requestOptions = {
-    method: 'GET',
-    headers: headers,
-    redirect: 'follow'
-  };
 
-fetch("https://api.thecatapi.com/v1/breeds", requestOptions)
-  .then(response => response.json())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
+
+
+const fetchRequest = fetch("https://api.thecatapi.com/v1/breeds", {
+  headers: {
+    'x-api-key': apiKey
+  }
+})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => data)
+  .catch(error => {
+    console.error('Error fetching cat breeds using fetch:', error);
+    return []; // Return an empty array in case of error
+  });
+
+  Promise.all([axiosRequest, fetchRequest])
+  .then(([axiosResponse, fetchResponse]) => {
+    const combinedArray = [...axiosResponse, ...fetchResponse];
+    console.log('Combined Array:', combinedArray);
+  })
+  .catch(error => {
+    console.error('Error combining responses:', error);
+  });
