@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from './config';
+import config from '/config';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 axios.defaults.headers.common['x-api-key'] = config.catApiKey;
