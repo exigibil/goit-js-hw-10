@@ -109,4 +109,4 @@ dist
 .tern-port
 
 # Ignore configuration files
-config.js
+config.ts
