@@ -1,10 +1,8 @@
 import axios from 'axios';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import config from './config.ts';
+import { catApiKey } from './config';
 
-axios.defaults.headers.common['x-api-key'] = config.catApiKey;
-
-axios.defaults.headers.common['x-api-key'] = config.catApiKey;
+axios.defaults.headers.common['x-api-key'] = catApiKey;
 
 export function fetchBreeds() {
   return axios.get('https://api.thecatapi.com/v1/breeds')
